@@ -1,0 +1,8 @@
+{
+  "overrides": [
+    {
+      "files": ["tests/**", "pages/**"],
+      "extends": "plugin:playwright/recommended"
+    }
+  ]
+}

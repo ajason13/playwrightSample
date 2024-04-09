@@ -1,7 +1,7 @@
 import type { Page, Locator } from '@playwright/test';
 import { BasePage } from './base.page';
 
-export class TodoPage extends BasePage{
+export class TodoPage extends BasePage {
   private readonly inputBox: Locator;
   private readonly todoItems: Locator;
   readonly todoItemText: Locator;
