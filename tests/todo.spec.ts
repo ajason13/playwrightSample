@@ -1,6 +1,7 @@
 import { test as base, expect, type Page } from '@playwright/test';
 import { TodoPage } from '../pages/todo.page';
 
+// Navigate to Todo page
 const test = base.extend<{ todoPage: TodoPage }>({
     todoPage: async ({ page }, use) => {
         const todoPage = new TodoPage(page)
@@ -32,9 +33,7 @@ test.describe('Todo page', () => {
       TODO_ITEMS[1]
     ]);
 
-    await page.waitForFunction(e => {
-        return JSON.parse(localStorage['react-todos']).length === e;
-      }, 2);
+    await checkNumberOfTodosInLocalStorage(page, 2);
   });
 
 //   test('should clear text input field when an item is added', async ({ page }) => {
@@ -77,6 +76,12 @@ async function createDefaultTodos(page: Page) {
     await newTodo.fill(item);
     await newTodo.press('Enter');
   }
+}
+
+async function checkNumberOfTodosInLocalStorage(page: Page, expected: number) {
+    await page.waitForFunction(e => {
+        return JSON.parse(localStorage['react-todos']).length === e;
+      }, expected);
 }
 
 async function checkNumberOfCompletedTodosInLocalStorage(page: Page, expected: number) {
