@@ -20,14 +20,14 @@ test.describe('Todo page', () => {
     todoPage.addToDo(TODO_ITEMS[0]);
 
     // Make sure the list only has one todo item.
-    await expect(page.getByTestId('todo-title')).toHaveText([
+    await expect(todoPage.todoItemText).toHaveText([
       TODO_ITEMS[0]
     ]);
 
     todoPage.addToDo(TODO_ITEMS[1]);
 
     // Make sure the list now has two todo items.
-    await expect(page.getByTestId('todo-title')).toHaveText([
+    await expect(todoPage.todoItemText).toHaveText([
       TODO_ITEMS[0],
       TODO_ITEMS[1]
     ]);

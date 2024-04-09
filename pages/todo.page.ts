@@ -4,11 +4,13 @@ import { BasePage } from './base.page';
 export class TodoPage extends BasePage{
   private readonly inputBox: Locator;
   private readonly todoItems: Locator;
+  readonly todoItemText: Locator;
 
   constructor(public readonly page: Page) {
     super(page);
     this.inputBox = page.locator('input.new-todo');
     this.todoItems = page.getByTestId('todo-item');
+    this.todoItemText = page.getByTestId('todo-title');
   }
 
   async goto() {
