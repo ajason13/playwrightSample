@@ -10,6 +10,4 @@ export class BasePage {
   async goto(partialUrl: string) {
     await this.page.goto(partialUrl);
   }
-
-  // Add common assertions here
 }
