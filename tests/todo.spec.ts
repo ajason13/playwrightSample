@@ -45,20 +45,23 @@ test.describe('Todo page', () => {
     await checkNumberOfTodosInLocalStorage(page, 1);
   });
 
-    test('should append new items to the bottom of the list', async ({ todoPage, page }) => {
-      // Create 3 items.
-      await createDefaultTodos(todoPage);
+  test('should append new items to the bottom of the list', async ({
+    todoPage,
+    page
+  }) => {
+    // Create 3 items.
+    await createDefaultTodos(todoPage);
 
-      // Check test using different methods.
-      await expect(page.getByText('3 items left')).toBeVisible();
-      await expect(todoPage.todoItemCount).toHaveText('3 items left');
-      await expect(todoPage.todoItemCount).toContainText('3');
-      await expect(todoPage.todoItemCount).toHaveText(/3/);
+    // Check test using different methods.
+    await expect(page.getByText('3 items left')).toBeVisible();
+    await expect(todoPage.todoItemCount).toHaveText('3 items left');
+    await expect(todoPage.todoItemCount).toContainText('3');
+    await expect(todoPage.todoItemCount).toHaveText(/3/);
 
-      // Check all items in one call.
-      await expect(todoPage.todoItemText).toHaveText(TODO_ITEMS);
-      await checkNumberOfTodosInLocalStorage(page, 3);
-    });
+    // Check all items in one call.
+    await expect(todoPage.todoItemText).toHaveText(TODO_ITEMS);
+    await checkNumberOfTodosInLocalStorage(page, 3);
+  });
 });
 
 async function createDefaultTodos(todoPage: TodoPage) {
