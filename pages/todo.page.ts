@@ -5,12 +5,14 @@ export class TodoPage extends BasePage {
   readonly inputBox: Locator;
   private readonly todoItems: Locator;
   readonly todoItemText: Locator;
+  readonly todoItemCount: Locator;
 
   constructor(public readonly page: Page) {
     super(page);
     this.inputBox = page.locator('input.new-todo');
     this.todoItems = page.getByTestId('todo-item');
     this.todoItemText = page.getByTestId('todo-title');
+    this.todoItemCount = page.getByTestId('todo-count');
   }
 
   async goto() {
