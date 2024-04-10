@@ -18,12 +18,12 @@ const TODO_ITEMS = [
 
 test.describe('Todo page', () => {
   test('should allow me to add todo items', async ({ todoPage, page }) => {
-    todoPage.addToDo(TODO_ITEMS[0]);
+    await todoPage.addToDo(TODO_ITEMS[0]);
 
     // Make sure the list only has one todo item.
     await expect(todoPage.todoItemText).toHaveText([TODO_ITEMS[0]]);
 
-    todoPage.addToDo(TODO_ITEMS[1]);
+    await todoPage.addToDo(TODO_ITEMS[1]);
 
     // Make sure the list now has two todo items.
     await expect(todoPage.todoItemText).toHaveText([
@@ -34,18 +34,16 @@ test.describe('Todo page', () => {
     await checkNumberOfTodosInLocalStorage(page, 2);
   });
 
-  //   test('should clear text input field when an item is added', async ({ page }) => {
-  //     // create a new todo locator
-  //     const newTodo = page.getByPlaceholder('What needs to be done?');
+  test('should clear text input field when an item is added', async ({
+    todoPage,
+    page
+  }) => {
+    await todoPage.addToDo(TODO_ITEMS[0]);
 
-  //     // Create one todo item.
-  //     await newTodo.fill(TODO_ITEMS[0]);
-  //     await newTodo.press('Enter');
-
-  //     // Check that input is empty.
-  //     await expect(newTodo).toBeEmpty();
-  //     await checkNumberOfTodosInLocalStorage(page, 1);
-  //   });
+    // Check that input is empty.
+    await expect(todoPage.inputBox).toBeEmpty();
+    await checkNumberOfTodosInLocalStorage(page, 1);
+  });
 
   //   test('should append new items to the bottom of the list', async ({ page }) => {
   //     // Create 3 items.
