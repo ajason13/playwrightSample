@@ -34,13 +34,16 @@ test.describe('Todo page', () => {
     await checkNumberOfTodosInLocalStorage(page, 2);
   });
 
-    test('should clear text input field when an item is added', async ({ todoPage, page }) => {
-      await todoPage.addToDo(TODO_ITEMS[0]);
+  test('should clear text input field when an item is added', async ({
+    todoPage,
+    page
+  }) => {
+    await todoPage.addToDo(TODO_ITEMS[0]);
 
-      // Check that input is empty.
-      await expect(todoPage.inputBox).toBeEmpty();
-      await checkNumberOfTodosInLocalStorage(page, 1);
-    });
+    // Check that input is empty.
+    await expect(todoPage.inputBox).toBeEmpty();
+    await checkNumberOfTodosInLocalStorage(page, 1);
+  });
 
   //   test('should append new items to the bottom of the list', async ({ page }) => {
   //     // Create 3 items.
