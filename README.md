@@ -7,9 +7,10 @@ Try out Playwright for UI and API automation
 Runs automated UI tests (in Windows and Ubuntu for now)
 
 ### Features
+
 - Run UI tests in Chrome, Firefox, and Edge
 - Allure report after every run
-    - On test failure, screenshot(s) is added to report
+  - On test failure, screenshot(s) is added to report
 - For every pull request, tests are ran to make sure nothing is broken
 
 ## Getting Started
@@ -21,11 +22,13 @@ Runs automated UI tests (in Windows and Ubuntu for now)
 ### Executing program
 
 - Run tests
+
 ```
 npx playwright test
 ```
 
 - Generate a report
+
 ```
 npx allure serve allure-results
 ```
