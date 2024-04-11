@@ -3,9 +3,10 @@ import { BasePage } from './base.page';
 
 export class TodoPage extends BasePage {
   readonly inputBox: Locator;
-  private readonly todoItems: Locator;
+  readonly todoItems: Locator;
   readonly todoItemText: Locator;
   readonly todoItemCount: Locator;
+  private readonly labelMarkAll: Locator;
 
   constructor(public readonly page: Page) {
     super(page);
@@ -13,6 +14,7 @@ export class TodoPage extends BasePage {
     this.todoItems = page.getByTestId('todo-item');
     this.todoItemText = page.getByTestId('todo-title');
     this.todoItemCount = page.getByTestId('todo-count');
+    this.labelMarkAll = page.getByLabel('Mark all as complete');
   }
 
   async goto() {
@@ -28,6 +30,10 @@ export class TodoPage extends BasePage {
     const todo = this.todoItems.filter({ hasText: text });
     await todo.hover();
     await todo.getByLabel('Delete').click();
+  }
+
+  async markAllTodosAsComplete() {
+    await this.labelMarkAll.click();
   }
 
   async removeAll() {
