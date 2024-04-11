@@ -63,7 +63,10 @@ test.describe('Todo page', () => {
     await checkNumberOfTodosInLocalStorage(page, 3);
   });
 
-  test('should allow me to mark all items as completed', async ({ todoPage, page }) => {
+  test('should allow me to mark all items as completed', async ({
+    todoPage,
+    page
+  }) => {
     await createDefaultTodos(todoPage);
     await todoPage.markAllTodosAsComplete();
 
