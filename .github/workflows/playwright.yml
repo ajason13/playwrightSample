@@ -1,4 +1,5 @@
 name: Playwright Tests
+run-name: ${{ github.actor }} created a PR
 on:
   pull_request:
     branches: [main, master]
@@ -10,7 +11,13 @@ jobs:
     container:
       image: mcr.microsoft.com/playwright:v1.40.0-jammy
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up JDK for reporting
+        uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: 21
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
@@ -22,9 +29,24 @@ jobs:
         run: npx playwright test
         env:
           HOME: /root
-      - uses: actions/upload-artifact@v4
+      - name: Load test report history
+        uses: actions/checkout@v4
+        if: always()
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages
+      - name: Build test report
+        uses: simple-elf/allure-report-action@v1.8
         if: always()
         with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 30
+          gh_pages: gh-pages
+          allure_history: allure-history
+          allure_results: allure-results
+      - name: Publish test report
+        uses: peaceiris/actions-gh-pages@v3.9.3
+        if: always()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: allure-history
