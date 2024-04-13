@@ -165,7 +165,10 @@ test.describe('Todo page', () => {
     await checkTodosInLocalStorage(page, updatedString);
   });
 
-  test('should hide other controls when editing todo', async ({ todoPage, page }) => {
+  test('should hide other controls when editing todo', async ({
+    todoPage,
+    page
+  }) => {
     await createDefaultTodos(todoPage);
     const todoItem = todoPage.todoItems.nth(1);
     await todoItem.dblclick();
@@ -221,7 +224,7 @@ test.describe('Todo page', () => {
   // });
 
   // test('should remove the item if an empty text string was entered', async ({
-  //   todoPage, 
+  //   todoPage,
   //   page
   // }) => {
   //   await createDefaultTodos(todoPage);
