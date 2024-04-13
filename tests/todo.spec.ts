@@ -181,26 +181,29 @@ test.describe('Todo page', () => {
     await checkNumberOfTodosInLocalStorage(page, 3);
   });
 
-  // test('should save edits on blur', async ({ todoPage, page }) => {
-  //   await createDefaultTodos(todoPage);
-  //   const todoItems = page.getByTestId('todo-item');
-  //   await todoItems.nth(1).dblclick();
-  //   await todoItems
-  //     .nth(1)
-  //     .getByRole('textbox', { name: 'Edit' })
-  //     .fill('buy some sausages');
-  //   await todoItems
-  //     .nth(1)
-  //     .getByRole('textbox', { name: 'Edit' })
-  //     .dispatchEvent('blur');
+  test('should save edits on blur', async ({ todoPage, page }) => {
+    const updatedTodoString = 'buy some sausages';
 
-  //   await expect(todoItems).toHaveText([
-  //     TODO_ITEMS[0],
-  //     'buy some sausages',
-  //     TODO_ITEMS[2]
-  //   ]);
-  //   await checkTodosInLocalStorage(page, 'buy some sausages');
-  // });
+    await createDefaultTodos(todoPage);
+    
+    const todoItems = todoPage.todoItems;
+    await todoItems.nth(1).dblclick();
+    await todoItems
+      .nth(1)
+      .getByRole('textbox', { name: 'Edit' })
+      .fill(updatedTodoString);
+    await todoItems
+      .nth(1)
+      .getByRole('textbox', { name: 'Edit' })
+      .dispatchEvent('blur');
+
+    await expect(todoItems).toHaveText([
+      TODO_ITEMS[0],
+      updatedTodoString,
+      TODO_ITEMS[2]
+    ]);
+    await checkTodosInLocalStorage(page, updatedTodoString);
+  });
 
   // test('should trim entered text', async ({ todoPage, page }) => {
   //   await createDefaultTodos(todoPage);
