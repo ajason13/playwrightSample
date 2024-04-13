@@ -39,7 +39,10 @@ export class TodoPage extends BasePage {
   async checkTodoItem(todoText: string) {
     // Find todo
     try {
-      await this.todoItemText.filter({ hasText: todoText}).locator('../input').click();
+      await this.todoItemText
+        .filter({ hasText: todoText })
+        .locator('../input')
+        .click();
     } catch {
       throw Error(`'${todoText}' todo doesn't exist.`);
     }
