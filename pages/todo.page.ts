@@ -26,6 +26,17 @@ export class TodoPage extends BasePage {
     await this.inputBox.press('Enter');
   }
 
+  async editToDo(originalString: string, newString: string) {
+    try {
+      const todo = this.todoItemText.filter({ hasText: originalString });
+      await todo.dblclick();
+      await todo.locator('../../input').fill(newString);
+      await todo.press('Enter');
+    } catch {
+      throw Error(`'${originalString}' todo doesn't exist.`);
+    }
+  }
+
   async remove(text: string) {
     const todo = this.todoItems.filter({ hasText: text });
     await todo.hover();

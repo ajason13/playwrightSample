@@ -115,7 +115,6 @@ test.describe('Todo page', () => {
   });
 
   test('should allow me to mark items as complete', async ({ todoPage }) => {
-
     // Create todo items
     await createDefaultTodos(todoPage);
 
@@ -132,8 +131,10 @@ test.describe('Todo page', () => {
     await expect(todoPage.todoItems.nth(1)).toHaveClass('completed');
   });
 
-  test('should allow me to un-mark items as complete', async ({ todoPage, page }) => {
-
+  test('should allow me to un-mark items as complete', async ({
+    todoPage,
+    page
+  }) => {
     // Create todo items
     await createDefaultTodos(todoPage);
 
@@ -150,28 +151,19 @@ test.describe('Todo page', () => {
     await checkNumberOfCompletedTodosInLocalStorage(page, 0);
   });
 
-  // test('should allow me to edit an item', async ({ page }) => {
-  //   await createDefaultTodos(page);
+  test('should allow me to edit an item', async ({ todoPage, page }) => {
+    const updatedString = 'buy some sausages';
+    await createDefaultTodos(todoPage);
+    await todoPage.editToDo(TODO_ITEMS[1], updatedString);
 
-  //   const todoItems = page.getByTestId('todo-item');
-  //   const secondTodo = todoItems.nth(1);
-  //   await secondTodo.dblclick();
-  //   await expect(secondTodo.getByRole('textbox', { name: 'Edit' })).toHaveValue(
-  //     TODO_ITEMS[1]
-  //   );
-  //   await secondTodo
-  //     .getByRole('textbox', { name: 'Edit' })
-  //     .fill('buy some sausages');
-  //   await secondTodo.getByRole('textbox', { name: 'Edit' }).press('Enter');
-
-  //   // Explicitly assert the new text value.
-  //   await expect(todoItems).toHaveText([
-  //     TODO_ITEMS[0],
-  //     'buy some sausages',
-  //     TODO_ITEMS[2]
-  //   ]);
-  //   await checkTodosInLocalStorage(page, 'buy some sausages');
-  // });
+    // Explicitly assert the new text value.
+    await expect(todoPage.todoItems).toHaveText([
+      TODO_ITEMS[0],
+      updatedString,
+      TODO_ITEMS[2]
+    ]);
+    await checkTodosInLocalStorage(page, updatedString);
+  });
 });
 
 async function createDefaultTodos(todoPage: TodoPage) {
