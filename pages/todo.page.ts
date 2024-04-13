@@ -6,7 +6,7 @@ export class TodoPage extends BasePage {
   readonly todoItems: Locator;
   readonly todoItemText: Locator;
   readonly todoItemCount: Locator;
-  private readonly labelMarkAll: Locator;
+  readonly labelMarkAll: Locator;
 
   constructor(public readonly page: Page) {
     super(page);

@@ -79,17 +79,18 @@ test.describe('Todo page', () => {
     await checkNumberOfCompletedTodosInLocalStorage(page, 3);
   });
 
-  // test('should allow me to clear the complete state of all items', async ({
-  //   page
-  // }) => {
-  //   const toggleAll = page.getByLabel('Mark all as complete');
-  //   // Check and then immediately uncheck.
-  //   await toggleAll.check();
-  //   await toggleAll.uncheck();
+  test('should allow me to clear the complete state of all items', async ({
+    todoPage,
+    page
+  }) => {
+    await createDefaultTodos(todoPage);
+    // Check and then immediately uncheck.
+    await todoPage.markAllTodosAsComplete();
+    await todoPage.markAllTodosAsComplete();
 
-  //   // Should be no completed classes.
-  //   await expect(page.getByTestId('todo-item')).toHaveClass(['', '', '']);
-  // });
+    // Should be no completed classes.
+    await expect(todoPage.todoItems).toHaveClass(['', '', '']);
+  });
 
   // test('complete all checkbox should update state when items are completed / cleared', async ({
   //   page
