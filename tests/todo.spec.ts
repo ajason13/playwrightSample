@@ -91,7 +91,7 @@ test.describe('Todo page', () => {
     await expect(todoPage.todoItems).toHaveClass(['', '', '']);
   });
 
-  test('complete all checkbox should update state when items are completed / cleared', async ({
+  test('should complete all checkbox update state when items are completed / cleared', async ({
     todoPage,
     page
   }) => {
@@ -113,6 +113,65 @@ test.describe('Todo page', () => {
     // Assert the toggle all is checked again.
     await expect(todoPage.labelMarkAll).toBeChecked();
   });
+
+  test('should allow me to mark items as complete', async ({ todoPage }) => {
+
+    // Create todo items
+    await createDefaultTodos(todoPage);
+
+    // Check first item.
+    await todoPage.checkTodoItem(TODO_ITEMS[0]);
+    await expect(todoPage.todoItems.nth(0)).toHaveClass('completed');
+
+    // Check second item.
+    await expect(todoPage.todoItems.nth(1)).not.toHaveClass('completed');
+    await todoPage.checkTodoItem(TODO_ITEMS[1]);
+
+    // Assert completed class.
+    await expect(todoPage.todoItems.nth(0)).toHaveClass('completed');
+    await expect(todoPage.todoItems.nth(1)).toHaveClass('completed');
+  });
+
+  test('should allow me to un-mark items as complete', async ({ todoPage, page }) => {
+
+    // Create todo items
+    await createDefaultTodos(todoPage);
+
+    // Check first todo
+    await todoPage.checkTodoItem(TODO_ITEMS[0]);
+    await expect(todoPage.todoItems.nth(0)).toHaveClass('completed');
+    await expect(todoPage.todoItems.nth(1)).not.toHaveClass('completed');
+    await checkNumberOfCompletedTodosInLocalStorage(page, 1);
+
+    // Uncheck first todo
+    await todoPage.checkTodoItem(TODO_ITEMS[0]);
+    await expect(todoPage.todoItems.nth(0)).not.toHaveClass('completed');
+    await expect(todoPage.todoItems.nth(1)).not.toHaveClass('completed');
+    await checkNumberOfCompletedTodosInLocalStorage(page, 0);
+  });
+
+  // test('should allow me to edit an item', async ({ page }) => {
+  //   await createDefaultTodos(page);
+
+  //   const todoItems = page.getByTestId('todo-item');
+  //   const secondTodo = todoItems.nth(1);
+  //   await secondTodo.dblclick();
+  //   await expect(secondTodo.getByRole('textbox', { name: 'Edit' })).toHaveValue(
+  //     TODO_ITEMS[1]
+  //   );
+  //   await secondTodo
+  //     .getByRole('textbox', { name: 'Edit' })
+  //     .fill('buy some sausages');
+  //   await secondTodo.getByRole('textbox', { name: 'Edit' }).press('Enter');
+
+  //   // Explicitly assert the new text value.
+  //   await expect(todoItems).toHaveText([
+  //     TODO_ITEMS[0],
+  //     'buy some sausages',
+  //     TODO_ITEMS[2]
+  //   ]);
+  //   await checkTodosInLocalStorage(page, 'buy some sausages');
+  // });
 });
 
 async function createDefaultTodos(todoPage: TodoPage) {
