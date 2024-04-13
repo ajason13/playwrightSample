@@ -80,8 +80,7 @@ test.describe('Todo page', () => {
   });
 
   test('should allow me to clear the complete state of all items', async ({
-    todoPage,
-    page
+    todoPage
   }) => {
     await createDefaultTodos(todoPage);
     // Check and then immediately uncheck.
@@ -92,27 +91,28 @@ test.describe('Todo page', () => {
     await expect(todoPage.todoItems).toHaveClass(['', '', '']);
   });
 
-  // test('complete all checkbox should update state when items are completed / cleared', async ({
-  //   page
-  // }) => {
-  //   const toggleAll = page.getByLabel('Mark all as complete');
-  //   await toggleAll.check();
-  //   await expect(toggleAll).toBeChecked();
-  //   await checkNumberOfCompletedTodosInLocalStorage(page, 3);
+  test('complete all checkbox should update state when items are completed / cleared', async ({
+    todoPage,
+    page
+  }) => {
+    await createDefaultTodos(todoPage);
+    await todoPage.markAllTodosAsComplete();
+    await expect(todoPage.labelMarkAll).toBeChecked();
+    await checkNumberOfCompletedTodosInLocalStorage(page, 3);
 
-  //   // Uncheck first todo.
-  //   const firstTodo = page.getByTestId('todo-item').nth(0);
-  //   await firstTodo.getByRole('checkbox').uncheck();
+    // Uncheck first todo.
+    await todoPage.checkTodoItem(TODO_ITEMS[0]);
 
-  //   // Reuse toggleAll locator and make sure its not checked.
-  //   await expect(toggleAll).not.toBeChecked();
+    // Make sure toggleAll is not checked.
+    await expect(todoPage.labelMarkAll).not.toBeChecked();
 
-  //   await firstTodo.getByRole('checkbox').check();
-  //   await checkNumberOfCompletedTodosInLocalStorage(page, 3);
+    // Check first todo
+    await todoPage.checkTodoItem(TODO_ITEMS[0]);
+    await checkNumberOfCompletedTodosInLocalStorage(page, 3);
 
-  //   // Assert the toggle all is checked again.
-  //   await expect(toggleAll).toBeChecked();
-  // });
+    // Assert the toggle all is checked again.
+    await expect(todoPage.labelMarkAll).toBeChecked();
+  });
 });
 
 async function createDefaultTodos(todoPage: TodoPage) {

@@ -36,6 +36,15 @@ export class TodoPage extends BasePage {
     await this.labelMarkAll.click();
   }
 
+  async checkTodoItem(todoText: string) {
+    // Find todo
+    try {
+      await this.todoItemText.filter({ hasText: todoText}).locator('../input').click();
+    } catch {
+      throw Error(`'${todoText}' todo doesn't exist.`);
+    }
+  }
+
   async removeAll() {
     while ((await this.todoItems.count()) > 0) {
       await this.todoItems.first().hover();
