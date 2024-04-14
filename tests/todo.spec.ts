@@ -152,17 +152,17 @@ test.describe('Todo page', () => {
   });
 
   test('should allow me to edit an item', async ({ todoPage, page }) => {
-    const updatedString = 'buy some sausages';
+    const updatedTodoString = 'buy some sausages';
     await createDefaultTodos(todoPage);
-    await todoPage.editToDo(TODO_ITEMS[1], updatedString);
+    await todoPage.editToDo(TODO_ITEMS[1], updatedTodoString);
 
     // Explicitly assert the new text value.
     await expect(todoPage.todoItems).toHaveText([
       TODO_ITEMS[0],
-      updatedString,
+      updatedTodoString,
       TODO_ITEMS[2]
     ]);
-    await checkTodosInLocalStorage(page, updatedString);
+    await checkTodosInLocalStorage(page, updatedTodoString);
   });
 
   test('should hide other controls when editing todo', async ({
@@ -185,7 +185,7 @@ test.describe('Todo page', () => {
     const updatedTodoString = 'buy some sausages';
 
     await createDefaultTodos(todoPage);
-    
+
     const todoItems = todoPage.todoItems;
     await todoItems.nth(1).dblclick();
     await todoItems
@@ -205,26 +205,18 @@ test.describe('Todo page', () => {
     await checkTodosInLocalStorage(page, updatedTodoString);
   });
 
-  // test('should trim entered text', async ({ todoPage, page }) => {
-  //   await createDefaultTodos(todoPage);
-  //   const todoItems = page.getByTestId('todo-item');
-  //   await todoItems.nth(1).dblclick();
-  //   await todoItems
-  //     .nth(1)
-  //     .getByRole('textbox', { name: 'Edit' })
-  //     .fill('    buy some sausages    ');
-  //   await todoItems
-  //     .nth(1)
-  //     .getByRole('textbox', { name: 'Edit' })
-  //     .press('Enter');
+  test('should trim entered text', async ({ todoPage, page }) => {
+    await createDefaultTodos(todoPage);
 
-  //   await expect(todoItems).toHaveText([
-  //     TODO_ITEMS[0],
-  //     'buy some sausages',
-  //     TODO_ITEMS[2]
-  //   ]);
-  //   await checkTodosInLocalStorage(page, 'buy some sausages');
-  // });
+    await todoPage.editToDo(TODO_ITEMS[1], '    buy some sausages    ');
+
+    await expect(todoPage.todoItems).toHaveText([
+      TODO_ITEMS[0],
+      'buy some sausages',
+      TODO_ITEMS[2]
+    ]);
+    await checkTodosInLocalStorage(page, 'buy some sausages');
+  });
 
   // test('should remove the item if an empty text string was entered', async ({
   //   todoPage,
