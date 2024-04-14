@@ -17,6 +17,7 @@ Runs automated UI tests (in Windows and Ubuntu for now)
 
 ### Installing
 
+- Clone repo
 - [Install Allure locally](https://allurereport.org/docs/gettingstarted-installation/) if you want to view report(s).
 
 ### Executing program
