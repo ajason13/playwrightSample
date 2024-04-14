@@ -218,21 +218,16 @@ test.describe('Todo page', () => {
     await checkTodosInLocalStorage(page, 'buy some sausages');
   });
 
-  // test('should remove the item if an empty text string was entered', async ({
-  //   todoPage,
-  //   page
-  // }) => {
-  //   await createDefaultTodos(todoPage);
-  //   const todoItems = page.getByTestId('todo-item');
-  //   await todoItems.nth(1).dblclick();
-  //   await todoItems.nth(1).getByRole('textbox', { name: 'Edit' }).fill('');
-  //   await todoItems
-  //     .nth(1)
-  //     .getByRole('textbox', { name: 'Edit' })
-  //     .press('Enter');
+  test('should remove the item if an empty text string was entered', async ({
+    todoPage,
+    page
+  }) => {
+    await createDefaultTodos(todoPage);
+    
+    await todoPage.editToDo(TODO_ITEMS[1], '');
 
-  //   await expect(todoItems).toHaveText([TODO_ITEMS[0], TODO_ITEMS[2]]);
-  // });
+    await expect(todoPage.todoItems).toHaveText([TODO_ITEMS[0], TODO_ITEMS[2]]);
+  });
 
   // test('should cancel edits on escape', async ({ todoPage, page }) => {
   //   await createDefaultTodos(todoPage);
