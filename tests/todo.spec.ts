@@ -223,26 +223,28 @@ test.describe('Todo page', () => {
     page
   }) => {
     await createDefaultTodos(todoPage);
-    
+
     await todoPage.editToDo(TODO_ITEMS[1], '');
 
     await expect(todoPage.todoItems).toHaveText([TODO_ITEMS[0], TODO_ITEMS[2]]);
   });
 
-  // test('should cancel edits on escape', async ({ todoPage, page }) => {
-  //   await createDefaultTodos(todoPage);
-  //   const todoItems = page.getByTestId('todo-item');
-  //   await todoItems.nth(1).dblclick();
-  //   await todoItems
-  //     .nth(1)
-  //     .getByRole('textbox', { name: 'Edit' })
-  //     .fill('buy some sausages');
-  //   await todoItems
-  //     .nth(1)
-  //     .getByRole('textbox', { name: 'Edit' })
-  //     .press('Escape');
-  //   await expect(todoItems).toHaveText(TODO_ITEMS);
-  // });
+  test('should cancel edits on escape', async ({ todoPage, page }) => {
+    await createDefaultTodos(todoPage);
+
+    const todoItems = todoPage.todoItems;
+    await todoItems.nth(1).dblclick();
+    await todoItems
+      .nth(1)
+      .getByRole('textbox', { name: 'Edit' })
+      .fill('buy some sausages');
+    await todoItems
+      .nth(1)
+      .getByRole('textbox', { name: 'Edit' })
+      .press('Escape');
+      
+    await expect(todoItems).toHaveText(TODO_ITEMS);
+  });
 });
 
 async function createDefaultTodos(todoPage: TodoPage) {
