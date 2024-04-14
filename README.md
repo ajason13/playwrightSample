@@ -12,6 +12,7 @@ Runs automated UI tests (in Windows and Ubuntu for now)
 - Allure report after every run
   - On test failure, screenshot(s) is added to report
 - For every pull request, tests are ran to make sure nothing is broken
+  - Historical runs can be found [here](https://ajason13.github.io/playwrightSample/)
 
 ## Getting Started
 
