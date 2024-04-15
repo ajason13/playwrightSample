@@ -7,6 +7,8 @@ export class TodoPage extends BasePage {
   readonly todoItemText: Locator;
   readonly todoItemCount: Locator;
   readonly labelMarkAll: Locator;
+  readonly btnClearCompleted: Locator;
+  readonly selectedTodoFilter: Locator;
 
   constructor(public readonly page: Page) {
     super(page);
@@ -15,6 +17,8 @@ export class TodoPage extends BasePage {
     this.todoItemText = page.getByTestId('todo-title');
     this.todoItemCount = page.getByTestId('todo-count');
     this.labelMarkAll = page.getByLabel('Mark all as complete');
+    this.btnClearCompleted = page.getByText('Clear completed');
+    this.selectedTodoFilter = this.page.locator('a.selected');
   }
 
   async goto() {
@@ -47,6 +51,15 @@ export class TodoPage extends BasePage {
     await this.labelMarkAll.click();
   }
 
+  async clearCompletedTodos() {
+    const clearCompletedIsVisible = await this.btnClearCompleted.isVisible();
+    if (!clearCompletedIsVisible) {
+      throw Error('No completed todos are available to clear');
+    }
+
+    await this.btnClearCompleted.click();
+  }
+
   async checkTodoItem(todoText: string) {
     // Find todo
     try {
@@ -59,10 +72,26 @@ export class TodoPage extends BasePage {
     }
   }
 
+  async isTodoChecked(todoText: string): Promise<boolean> {
+    // Find todo
+    try {
+      return await this.todoItemText
+        .filter({ hasText: todoText })
+        .locator('../input')
+        .isChecked();
+    } catch {
+      throw Error(`'${todoText}' todo doesn't exist.`);
+    }
+  }
+
   async removeAll() {
     while ((await this.todoItems.count()) > 0) {
       await this.todoItems.first().hover();
       await this.todoItems.getByLabel('Delete').first().click();
     }
+  }
+
+  async filterTodos(filter: 'All' | 'Active' | 'Completed') {
+    await this.page.getByRole('link', { name: filter }).click();
   }
 }
