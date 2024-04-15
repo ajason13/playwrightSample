@@ -246,7 +246,10 @@ test.describe('Todo page', () => {
     await expect(todoItems).toHaveText(TODO_ITEMS);
   });
 
-  test('should display the current number of todo items', async ({ todoPage, page }) => {
+  test('should display the current number of todo items', async ({
+    todoPage,
+    page
+  }) => {
     await todoPage.addToDo(TODO_ITEMS[0]);
     await expect(todoPage.todoItemCount).toContainText('1');
 
@@ -258,21 +261,23 @@ test.describe('Todo page', () => {
 
   test('should display the correct text', async ({ todoPage }) => {
     await createDefaultTodos(todoPage);
-    await todoPage.checkTodoItem(TODO_ITEMS[0])
+    await todoPage.checkTodoItem(TODO_ITEMS[0]);
     await expect(todoPage.btnClearCompleted).toBeVisible();
   });
 
   test('should remove completed items when clicked', async ({ todoPage }) => {
     await createDefaultTodos(todoPage);
-    await todoPage.checkTodoItem(TODO_ITEMS[1])
+    await todoPage.checkTodoItem(TODO_ITEMS[1]);
     await todoPage.clearCompletedTodos();
     await expect(todoPage.todoItems).toHaveCount(2);
     await expect(todoPage.todoItems).toHaveText([TODO_ITEMS[0], TODO_ITEMS[2]]);
   });
 
-  test('should be hidden when there are no items that are completed', async ({ todoPage }) => {
+  test('should be hidden when there are no items that are completed', async ({
+    todoPage
+  }) => {
     await createDefaultTodos(todoPage);
-    await todoPage.checkTodoItem(TODO_ITEMS[0])
+    await todoPage.checkTodoItem(TODO_ITEMS[0]);
     await todoPage.clearCompletedTodos();
     await expect(todoPage.btnClearCompleted).toBeHidden();
   });
@@ -280,9 +285,13 @@ test.describe('Todo page', () => {
   test('should persist its data', async ({ todoPage, page }) => {
     await createDefaultTodos(todoPage);
 
-    await todoPage.checkTodoItem(TODO_ITEMS[0])
+    await todoPage.checkTodoItem(TODO_ITEMS[0]);
 
-    await expect(todoPage.todoItemText).toHaveText([TODO_ITEMS[0], TODO_ITEMS[1], TODO_ITEMS[2]]);
+    await expect(todoPage.todoItemText).toHaveText([
+      TODO_ITEMS[0],
+      TODO_ITEMS[1],
+      TODO_ITEMS[2]
+    ]);
     await expect(todoPage.isTodoChecked(TODO_ITEMS[0])).toBeTruthy();
     await expect(todoPage.todoItems).toHaveClass(['completed', '', '']);
 
@@ -291,20 +300,30 @@ test.describe('Todo page', () => {
 
     // Now reload.
     await page.reload();
-    await expect(todoPage.todoItemText).toHaveText([TODO_ITEMS[0], TODO_ITEMS[1], TODO_ITEMS[2]]);
+    await expect(todoPage.todoItemText).toHaveText([
+      TODO_ITEMS[0],
+      TODO_ITEMS[1],
+      TODO_ITEMS[2]
+    ]);
     await expect(todoPage.isTodoChecked(TODO_ITEMS[0])).toBeTruthy();
     await expect(todoPage.todoItems).toHaveClass(['completed', '', '']);
   });
 
-  test('should allow me to display active items', async ({ todoPage, page }) => {
+  test('should allow me to display active items', async ({
+    todoPage,
+    page
+  }) => {
     await createDefaultTodos(todoPage);
-    await todoPage.checkTodoItem(TODO_ITEMS[1])
+    await todoPage.checkTodoItem(TODO_ITEMS[1]);
 
     await checkNumberOfCompletedTodosInLocalStorage(page, 1);
 
     await todoPage.filterTodos('Active');
     await expect(todoPage.todoItems).toHaveCount(2);
-    await expect(todoPage.todoItemText).toHaveText([TODO_ITEMS[0], TODO_ITEMS[2]]);
+    await expect(todoPage.todoItemText).toHaveText([
+      TODO_ITEMS[0],
+      TODO_ITEMS[2]
+    ]);
   });
 
   test('should respect the back button', async ({ todoPage, page }) => {
@@ -333,7 +352,10 @@ test.describe('Todo page', () => {
     await expect(todoPage.todoItems).toHaveCount(3);
   });
 
-  test('should allow me to display completed items', async ({ todoPage, page }) => {
+  test('should allow me to display completed items', async ({
+    todoPage,
+    page
+  }) => {
     await createDefaultTodos(todoPage);
 
     await todoPage.checkTodoItem(TODO_ITEMS[1]);
@@ -355,7 +377,9 @@ test.describe('Todo page', () => {
     await expect(todoPage.todoItems).toHaveCount(3);
   });
 
-  test('should highlight the currently applied filter', async ({ todoPage, page }) => {
+  test('should highlight the currently applied filter', async ({
+    todoPage
+  }) => {
     await createDefaultTodos(todoPage);
     await expect(todoPage.selectedTodoFilter).toHaveText('All');
 

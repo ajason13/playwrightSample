@@ -56,7 +56,7 @@ export class TodoPage extends BasePage {
     if (!clearCompletedIsVisible) {
       throw Error('No completed todos are available to clear');
     }
-    
+
     await this.btnClearCompleted.click();
   }
 
