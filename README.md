@@ -1,6 +1,6 @@
 # Playwright Sample
 
-Try out Playwright for UI and API automation
+Try out Playwright for UI automation
 
 ## Description
 
